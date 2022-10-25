@@ -3,65 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" type="image/svg+xml" href="./images/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de compras</title>
     <link rel="stylesheet" href="css/styles.css">
-    <meta name="keywords" content="flores, jardineria, plantas, decoracion natural">
-    <meta name="description" content="florería verdum, tu jardineria de confianza con envios online a CDMX. Expertos en plantas de interiores y para tu jardín">
-    <title>Florería Verdum</title>
+    
 </head>
 <body>
     <header>
-        <a href="#">
+        <div class="header-section container">
+            <h1>Floreria verdum</h1>
+            
             <div>
-                <h1>Florería Verdum</h1>
+                <img onmouseover="showCart(this)" class="cart" src="img/cart-shopping-solid.svg" alt="">
+                <p class="count-product">0</p>
             </div>
-        </a>
-        <div>
-            <nav>
-                <a href="#" class="nav-link">Plantas</a>
-                <a href="#" class="nav-link">Decoración</a>
-                <a href="#" class="nav-link">Complementos</a>
-            </nav>
+            <div class="cart-products" id="products-id">
+                <p class="close-btn" onclick="closeBtn()">X</p>
+                <h3>Mi carrito</h3>
+                <div class="card-items">
+                    
+                </div>
+                <h2>Total: <strong class="price-total">0</strong> $</h2>
+            </div>
         </div>
     </header>
-    
-    <div class="container">
-        <div class="card">
-            <img src="img/olivo en maceta.webp" alt="">
-            <h4>Olivo</h4>
-            <p>Planta de exterior que requiere mucho sol y riegos moderados de agua</p>
-            <p>$230.00</p>
-            <a href="#">Leer más</a>
+    <section class="container">
+        <div class="products">
+            <div class="carts">
+                <div>
+                    <img src="img/olivo en maceta.webp" alt="">
+                    <p><span>230</span>$</p>
+                </div>
+                <h3 class="title">Olivo</h3>
+                <p class="title">Planta de exterior que requiere mucho sol y riegos moderados de agua</p>
+                <a href="" data-id="1" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/orquidea en maceta.jpg" alt="">
+                    <p><span>180</span>$</p>
+                </div>
+                <h3 class="title">Orquídea</h3>
+                <p class="title"> Planta de interior que require mucha iluminación sin recibir sol directo</p>
+                <a href="" class="btn-add-cart" data-id="2">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/espatifilo.jpg" alt="">
+                    <p><span>85</span>$</p>
+                </div>
+                <h3 class="title">Espatifilo</h3>
+                <p class="title"> Planta de interior y de sombra.</p>
+                <a href="" data-id="3" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/cactus1.jpg" alt="">
+                    <p><span>1100</span>$</p>
+                </div>
+                <h3 class="title">Cactus</h3>
+                <p class="title">En maceta, perfecta para interiores y poco cuidado.</p>
+                <a href="" data-id="4" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/helecho.webp" alt="">
+                    <p><span>350</span>$</p>
+                </div>
+                <h3 class="title">Helecho</h3>
+                <p class="title">Helecho natural para decorar terrazas o interiores.</p>
+                <a href="" data-id="5" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/lavanda.jpg" alt="">
+                    <p><span>190</span>$</p>
+                </div>
+                <h3 class="title">Lavanda</h3>
+                <p class="title">Además de decorar exterior e interiores posee un rico aroma.</p>
+                <a href="" data-id="6" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/calendario 2023.jpg" alt="">
+                    <p><span>50</span>$</p>
+                </div>
+                <h3 class="title">Calendario floral 2023</h3>
+                <p class="title">Calendario floral del año 2023</p>
+                <a href="" data-id="7" class="btn-add-cart">Comprar</a>
+            </div>
+            <div class="carts">
+                <div>
+                    <img src="img/abono.png" alt="">
+                    <p><span>300</span>$</p>
+                </div>
+                <h3 class="title">Abono</h3>
+                <p class="title">Fórmula ideal para diferentes cultivos. 50kg.</p>
+                <a href="" data-id="8" class="btn-add-cart">Comprar</a>
+            </div>
+            
         </div>
-        <div class="card">
-            <img src="img/orquidea en maceta.jpg" alt="">
-            <h4>Orquidea</h4>
-            <p>Planta de interior que require mucha iluminación sin recibir sol directo</p>
-            <p>$180.00</p>
-            <a href="#">Leer más</a>
-        </div>
-        <div class="card">
-            <img src="img/calendario 2023.jpg" alt="">
-            <h4>Calendario</h4>
-            <p>Calendario floral del año 2023</p>
-            <p>$50.00</p>
-            <a href="#">Leer más</a>
-        </div>
-        <div class="card">
-            <img src="img/abono.png" alt="">
-            <h4>Abono</h4>
-            <p>Fórmula ideal para diferentes cultivos. 50kg.</p>
-            <p>$300.00</p>
-            <a href="#">Leer más</a>
-        </div>
+    </section>
 
-    </div>
-
-
-
-
-
-
-    <script src="JS/script.js"></script>
+    <script src="JS/script.js" ></script>
 </body>
 </html>

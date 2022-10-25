@@ -1,85 +1,116 @@
-//Variables de precio
-let precioIva = 1.16
-let precioTotal = 0
-
-
-//Productos
-function Producto(nombre, precio, stock){
-    this.nombre = nombre;
-    this.precio = precio;
-    this.stock = stock;
-    this.restartStock = function(cantidad){
-        this.stock -= cantidad
-    }
+function showCart(x){
+    document.getElementById("products-id").style.display = "block";
 }
-
-let productoA = new Producto("plantasExterior", 230, 50)
-let productoB = new Producto("plantasInterior", 180, 40)
-let productoC = new Producto("otrosProductos", 50, 45)
-let productoD = new Producto("abonoPlanta", 300, 30)
-
-let listaProductos = [productoA, productoB, productoC, productoD]
-
-let listaNombres = []
-
-for(const prod of listaProductos){
-    if(prod.stock > 0){
-        listaNombres.push(prod.nombre)
-    }
-}
-
-//Mensaje de bienvenida
-alert("¡Bienvenido!")
-
-alert("Estos son nuestros productos: \n - " + listaNombres.join("\n - "))
-
-//ciclo de compra
-function calculoPrecio(cantidad, precio) {
-    precioTotal += ((cantidad * precio) * precioIva)
-}
-function calculoStock(cantidad, stock, precio){
-    if(cantidad <= stock){
-        calculoPrecio(cantidad, precio)
-    }
-    else {
-        alert("Actualmente tenemos " + stock + " unidades de este producto")
-    }
+function closeBtn(){
+    document.getElementById("products-id").style.display = "none";
 }
 
 
-let opcion = prompt("Ingrese la sección del que producto quiere comprar: \n1- Plantas de exterior\n2- Plantas de interior\n3- Otro producto\n4- Abono\n- Escriba ESC para salir -")
+//variables
+let allContainerCart = document.querySelector('.products');
+let containerBuyCart = document.querySelector('.card-items');
+let priceTotal = document.querySelector('.price-total')
+let amountProduct = document.querySelector('.count-product');
 
-while(opcion.toLowerCase() != "esc"){
 
-    if(opcion == 1){
-        let cantidadProductoExterior = parseInt(prompt("Ingrese cuantas plantas de exterior quiere comprar: "))
-        calculoStock(cantidadProductoExterior, productoA.stock, productoA.precio)
-        productoA.restartStock(cantidadProductoExterior)
-    }
-    else if(opcion == 2){
-        let cantidadProductoInterior = parseInt(prompt("Ingrese cuantas plantas de interior quiere comprar: "))
-        calculoStock(cantidadProductoInterior, productoB.stock, productoB.precio)
-        productoB.restartStock(cantidadProductoInterior)
-    }
-    else if(opcion == 3 ){
-        let cantidadOtroProducto = parseInt(prompt("Ingrese que cantidad de otros productos quiere comprar: "))
-        calculoStock(cantidadOtroProducto, productoC.stock, productoC.precio)
-        productoC.restartStock(cantidadOtroProducto)
-    }
-    else if(opcion == 4 ){
-        let cantidadOtroProducto = parseInt(prompt("Ingrese que cantidad de bolsas de abono que quiere comprar: "))
-        calculoStock(cantidadOtroProducto, productoD.stock, productoD.precio)
-        productoD.restartStock(cantidadOtroProducto)
-    }
-    else{
-        alert("No tenemos ese producto a la venta")
-    }
-    opcion = prompt("Ingrese la sección del que producto quiere comprar: \n1- Plantas de exterior\n2- Plantas de interior\n3- Otro producto\n4- Abono\n- Escriba ESC para salir -")
+let buyThings = [];
+let totalCard = 0;
+let countProduct = 0;
+
+//functions
+loadEventListenrs();
+function loadEventListenrs(){
+    allContainerCart.addEventListener('click', addProduct);
+
+    containerBuyCart.addEventListener('click', deleteProduct);
 }
 
-if(precioTotal != 0){
-    alert("El precio total es: " + "$" + precioTotal + " (IVA incluido)")
+function addProduct(e){
+    e.preventDefault();
+    if (e.target.classList.contains('btn-add-cart')) {
+        const selectProduct = e.target.parentElement; 
+        readTheContent(selectProduct);
+    }
 }
 
-//Mensaje de despedida
-alert("Gracias por tu visita, lo esperamos pronto.")
+function deleteProduct(e) {
+    if (e.target.classList.contains('delete-product')) {
+        const deleteId = e.target.getAttribute('data-id');
+
+        buyThings.forEach(value => {
+            if (value.id == deleteId) {
+                let priceReduce = parseFloat(value.price) * parseFloat(value.amount);
+                totalCard =  totalCard - priceReduce;
+                totalCard = totalCard.toFixed(2);
+            }
+        });
+        buyThings = buyThings.filter(product => product.id !== deleteId);
+        
+        countProduct--;
+    }
+    
+    if (buyThings.length === 0) {
+        priceTotal.innerHTML = 0;
+        amountProduct.innerHTML = 0;
+    }
+    loadHtml();
+}
+
+function readTheContent(product){
+    const infoProduct = {
+        image: product.querySelector('div img').src,
+        title: product.querySelector('.title').textContent,
+        price: product.querySelector('div p span').textContent,
+        id: product.querySelector('a').getAttribute('data-id'),
+        amount: 1
+    }
+
+    totalCard = parseFloat(totalCard) + parseFloat(infoProduct.price);
+    totalCard = totalCard.toFixed(2);
+
+    const exist = buyThings.some(product => product.id === infoProduct.id);
+    if (exist) {
+        const pro = buyThings.map(product => {
+            if (product.id === infoProduct.id) {
+                product.amount++;
+                return product;
+            } else {
+                return product
+            }
+        });
+        buyThings = [...pro];
+    } else {
+        buyThings = [...buyThings, infoProduct]
+        countProduct++;
+    }
+    loadHtml();
+    
+}
+
+function loadHtml(){
+    clearHtml();
+    buyThings.forEach(product => {
+        const {image, title, price, amount, id} = product;
+        const row = document.createElement('div');
+        row.classList.add('item');
+        row.innerHTML = `
+            <img src="${image}" alt="">
+            <div class="item-content">
+                <h5>${title}</h5>
+                <h5 class="cart-price">${price}$</h5>
+                <h6>Amount: ${amount}</h6>
+            </div>
+            <span class="delete-product" data-id="${id}">X</span>
+        `;
+
+        containerBuyCart.appendChild(row);
+
+        priceTotal.innerHTML = totalCard;
+
+        amountProduct.innerHTML = countProduct;
+    });
+}
+function clearHtml(){
+    containerBuyCart.innerHTML = '';
+}
+
