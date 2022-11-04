@@ -22,6 +22,9 @@ let countProduct = 0;
 //functions
 
 loadCartFromStorage();
+loadTotalFromStorage()
+loadCountFromStorage()
+
 
 loadHtml();
 
@@ -119,20 +122,36 @@ function loadHtml(){
         priceTotal.innerHTML = totalCard;
 
         amountProduct.innerHTML = countProduct;
+
+        
     });
 }
 
 function clearHtml(){
-    saveCartToStorage()
+    
     containerBuyCart.innerHTML = ""
 };
 
 function saveCartToStorage(){
     localStorage.setItem("buyThings", JSON.stringify(buyThings))
+    localStorage.setItem("totalCard", JSON.stringify(totalCard))
+    localStorage.setItem("countProduct", JSON.stringify(countProduct))
 };
 
 function loadCartFromStorage(){
     if(localStorage.getItem("buyThings") !== null){
         buyThings = JSON.parse(localStorage.getItem("buyThings"))
+    }
+}
+
+function loadTotalFromStorage(){
+    if(localStorage.getItem("totalCard") !== null){
+        totalCard = JSON.parse(localStorage.getItem("totalCard"))
+    }
+}
+
+function loadCountFromStorage(){
+    if(localStorage.getItem("countProduct") !== null){
+        countProduct = JSON.parse(localStorage.getItem("countProduct"))
     }
 }
