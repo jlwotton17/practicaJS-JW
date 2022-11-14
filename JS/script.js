@@ -67,6 +67,10 @@ function deleteProduct(e) {
         amountProduct.innerHTML = 0;
     }
     loadHtml();
+    swal.fire({
+        title: "Eliminaste correctamente el producto.",
+        icon: "success"
+    })
 }
 
 function readTheContent(product){
