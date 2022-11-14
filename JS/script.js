@@ -47,29 +47,37 @@ function addProduct(e){
 
 function deleteProduct(e) {
     saveCartToStorage()
-    if (e.target.classList.contains('delete-product')) {
-        const deleteId = e.target.getAttribute('data-id');
 
-        buyThings.forEach(value => {
-            if (value.id == deleteId) {
-                let priceReduce = parseFloat(value.price) * parseFloat(value.amount);
-                totalCard =  totalCard - priceReduce;
-                totalCard = totalCard.toFixed(2);
+    Swal.fire({
+        title: '¿Estas seguro de eliminar el producto del carrito?',
+        showDenyButton: true,
+        confirmButtonText: 'Eliminar',
+        denyButtonText: `Cancelar`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            if (e.target.classList.contains('delete-product')) {
+                const deleteId = e.target.getAttribute('data-id');
+                buyThings.forEach(value => {
+                    if (value.id == deleteId) {
+                        let priceReduce = parseFloat(value.price) * parseFloat(value.amount);
+                        totalCard =  totalCard - priceReduce;
+                        totalCard = totalCard.toFixed(2);
+                    }
+                });
+                buyThings = buyThings.filter(product => product.id !== deleteId);
+                
+                countProduct--;
             }
-        });
-        buyThings = buyThings.filter(product => product.id !== deleteId);
-        
-        countProduct--;
-    }
-    
-    if (buyThings.length === 0) {
-        priceTotal.innerHTML = 0;
-        amountProduct.innerHTML = 0;
-    }
-    loadHtml();
-    swal.fire({
-        title: "Eliminaste correctamente el producto.",
-        icon: "success"
+            
+            if (buyThings.length === 0) {
+                priceTotal.innerHTML = 0;
+                amountProduct.innerHTML = 0;
+            }
+            loadHtml();
+            Swal.fire('Eliminado', '', 'success')
+        } else if (result.isDenied) {
+            Swal.fire('No se elimino el producto', '', 'info')
+        }
     })
 }
 
